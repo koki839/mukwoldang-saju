@@ -2102,3 +2102,13 @@ h1, h2, h3, h4{
 .qa-actions{ display: grid; gap: 8px; }
 .qa-actions .btn{ width: 100%; }
 .pay-note{ margin: 0; font-size: 12px; color: var(--muted); line-height: 1.75; }
+
+/* 플로우 안내 문단 속 굵은 글씨 — 블록이 아니라 문장 안에서 이어지게 */
+.flow-body p b,
+.flow-body p strong{
+  display: inline;
+  font-size: inherit;
+  font-weight: 600;
+  color: var(--gold-soft);
+  margin: 0;
+}
