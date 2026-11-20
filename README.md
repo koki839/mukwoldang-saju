@@ -1,11 +1,14 @@
-# 묵월당 사주 — tarot_global/kr
+# 묵월당 사주 — 한국 사주 사이트
+
+- **라이브**: https://koki839.github.io/mukwoldang-saju/
+- **저장소**: https://github.com/koki839/mukwoldang-saju (public, GitHub Pages · `gh-pages` 브랜치 루트)
 
 흑요석 다크 + 한국 전통 무드의 정통 사주 사이트입니다. 프레임워크 없이 HTML / CSS / JS 만으로 만들어져 정적 호스팅에 그대로 올릴 수 있습니다(서버 비용 0원).
 
 ## 파일 구성
 
 ```
-tarot_global/kr/
+(저장소 루트)
 ├── index.html              # 한 페이지 — 사주팔자 / 이별·치유 / 궁합 / 1:1 감정 4개 탭 + FAQ
 ├── css/style.css           # 디자인 (모바일 우선, 흑요석·단청와인·금박·창살 패턴)
 ├── js/saju.js              # 만세력 계산 엔진 (절기·음양력·사주 여덟 글자·십성·용신·궁합)
@@ -15,13 +18,14 @@ tarot_global/kr/
 ├── data/content_more.js    # 세운(2026·2027)·이별 치유·궁합 본문
 ├── assets/banner_obsidian.jpg|webp   # 히어로 배너 (webp 136KB → jpg 236KB)
 ├── sitemap.xml · robots.txt
-└── _build/                 # 재생성·검증 스크립트 + 배너 원본 PNG (배포 시 제외 가능)
+└── .nojekyll                # GitHub Pages 가 Jekyll 없이 그대로 올리도록
 ```
+
+데이터 재생성·계산 검증 스크립트와 배너 원본 PNG(`_build/`)는 이 공개 저장소에 넣지 않았습니다. 원본 작업 폴더에만 있습니다. 배포에 필요한 파일은 위 목록이 전부입니다.
 
 ## 로컬에서 확인
 
 ```bash
-cd tarot_global/kr
 python3 -m http.server 8000
 # → http://localhost:8000/
 ```
@@ -42,14 +46,7 @@ python3 -m http.server 8000
 | 오행·십성 | 천간·지지 8글자 집계 + 지장간 표시. 십성은 일간 기준 대비 |
 | 신강·신약·용신 | 월령 가중 억부 방식의 **간이** 판정 (화면에 ‘간이’ 명시) |
 
-검증 스크립트:
-
-```bash
-LD_LIBRARY_PATH=/workspace/.cache/deb/root/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH \
-  python3 _build/harness.py      # 85개 계산 검증 (전부 통과)
-```
-
-데이터 표를 다시 만들려면 `_build/gen_terms.py`(절기) / `_build/gen_lunar.py`(음양력)를 실행합니다.
+검증 스크립트(`_build/harness.py` — 85개 계산 검증 전부 통과)와 데이터 재생성 스크립트(`_build/gen_terms.py` 절기 / `_build/gen_lunar.py` 음양력)는 원본 작업 폴더에 있으며, 이 저장소에는 포함하지 않았습니다.
 ※ 지원 범위: 양력 1900~2050년. 그 밖은 화면에서 안내합니다.
 
 ## 1:1 유료 신청 (계좌이체)
@@ -122,10 +119,14 @@ ID를 넣으면 `js/app.js` 가 gtag.js 를 로드하고 아래 이벤트를 자
 
 ## 배포
 
-1. **GitHub Pages** — 저장소를 만들고 이 폴더 내용을 `main` 브랜치 루트에 push → Settings → Pages → Deploy from a branch(`main` / `root`).
+1. **GitHub Pages (현재 적용됨)** — 이 폴더 내용을 `main` 브랜치에 push 하고, 같은 커밋을 `gh-pages` 브랜치로도 push 합니다. Pages 소스는 `gh-pages` / `/` 이고 빌드 후 위 주소로 서비스됩니다.
+   ```bash
+   git push origin main
+   git push origin main:refs/heads/gh-pages
+   ```
 2. **Cloudflare Pages** — Workers & Pages → Create → Pages → Upload assets → 이 폴더를 드래그.
 
-공개 전에 도메인에 맞춰 바꿀 곳(현재 `https://koki839.github.io/mukwoldang-saju/` 기준):
+주소가 바뀌면 함께 고칠 곳(현재 `https://koki839.github.io/mukwoldang-saju/` 기준으로 이미 반영됨):
 
 - `index.html` 의 `og:url`, `og:image`, `twitter:image`, `canonical`
 - `sitemap.xml`, `robots.txt` 의 주소
