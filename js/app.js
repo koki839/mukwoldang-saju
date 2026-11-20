@@ -80,7 +80,7 @@
     window.dataLayer = window.dataLayer || [];
     window.gtag = function () { window.dataLayer.push(arguments); };
     window.gtag('js', new Date());
-    window.gtag('config', id);
+    window.gtag('config', id, { send_page_view: false }); /* page_view는 boot에서 한 번만 전송 */
   })();
 
   function trackEvent(name, params) {
@@ -1209,9 +1209,8 @@
     initModal();
     initHash();
     $$('.panel .ad-slot').forEach(function (ad) { ad.hidden = true; });
-    if (!restoreFromParams()) {
-      trackEvent('page_view', { page: 'home' });
-    }
+    var restored = restoreFromParams();
+    trackEvent('page_view', { page: restored ? 'shared' : 'home' });
     // 탭 최초 노출 이벤트
     trackEvent('tab_view', { tab: 'saju' });
   }
