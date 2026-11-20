@@ -63,7 +63,7 @@
     13: '<path d="M34 88h32"/><path d="M38 88c6-16 16-24 24-26"/><path d="M62 62a8 8 0 0 0 0 14"/><path d="M44 94h12"/>',
     14: '<path d="M38 62h12l-6 11z"/><path d="M50 82h12l-6-11z"/><path d="M44 73c4 5 8 5 12 0"/><path d="M50 52v6M50 86v6"/>',
     15: '<path d="M50 88l10-32-20 13h20l-20-13z"/><circle cx="34" cy="90" r="3"/><circle cx="41" cy="94" r="3"/>',
-    16: '<path d="M41 92V62h18v30"/><path d="M45 62v-8h10v8"/><path d="M58 56l-7 11h8l-8 12"/><path d="M36 92h28"/>',
+    16: '<path d="M40 92V62h16v30"/><path d="M44 62v-7h8v7"/><path d="M65 54l-6 11h7l-7 12"/><path d="M35 92h24"/><circle cx="48" cy="73" r="2"/>',
     17: '<path d="M50 52v40M34 72h32M39 61l22 22M61 61L39 83"/><circle cx="34" cy="56" r="2"/><circle cx="66" cy="56" r="2"/><circle cx="34" cy="90" r="2"/>',
     18: '<path d="M57 60a12 12 0 1 0 0 25 15 15 0 0 1 0-25z"/><path d="M35 80v11M65 80v11"/><circle cx="50" cy="96" r="1.6"/>',
     19: '<circle cx="50" cy="72" r="10"/><path d="M50 52v-6M50 92v6M30 72h-6M70 72h6M36 58l-4-4M64 58l4-4M36 86l-4 4M64 86l4 4"/>',
