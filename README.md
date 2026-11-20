@@ -112,7 +112,7 @@ ID를 넣으면 `js/app.js` 가 gtag.js 를 로드하고 아래 이벤트를 자
 
 - 결과마다 카카오톡(모바일 공유 시트) / X / 링크 복사 버튼이 있습니다.
 - 주소에 입력값이 담겨 같은 결과를 다시 열 수 있습니다.
-  - 사주: `?tab=saju&cal=solar&birth=1990-05-09&time=10:00&gender=f`
+  - 사주: `?tab=saju&cal=solar&birth=1985-01-01&time=10:00&gender=f`
   - 이별: `?tab=breakup&birth=...&when=months`
   - 궁합: `?tab=compat&birth=...&pbirth=1992-08-14&ptime=10:00&pgender=m`
 - 서버·DB에 저장하지 않습니다. 계산은 전부 브라우저 안에서 이루어집니다.

@@ -130,12 +130,12 @@
     var yOpt = '';
     for (var y = YEAR_MAX; y >= YEAR_MIN; y--) yOpt += '<option value="' + y + '">' + y + '년</option>';
     ySel.innerHTML = yOpt;
-    ySel.value = String((defaults && defaults.y) || 1990);
+    ySel.value = String((defaults && defaults.y) || 1985);
 
     var mOpt = '';
     for (var m = 1; m <= 12; m++) mOpt += '<option value="' + m + '">' + m + '월</option>';
     mSel.innerHTML = mOpt;
-    mSel.value = String((defaults && defaults.m) || 5);
+    mSel.value = String((defaults && defaults.m) || 1);
 
     function fillDays() {
       var yv = Number(ySel.value), mv = Number(mSel.value);
@@ -149,7 +149,7 @@
       var opt = '';
       for (var d = 1; d <= maxD; d++) opt += '<option value="' + d + '">' + d + '일</option>';
       dSel.innerHTML = opt;
-      dSel.value = String(Math.min(prev || (defaults && defaults.d) || 9, maxD));
+      dSel.value = String(Math.min(prev || (defaults && defaults.d) || 1, maxD));
     }
     fillDays();
 
