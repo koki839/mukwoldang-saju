@@ -1154,14 +1154,7 @@
       '<p class="bank-pending">결제는 <b>검로드(Gumroad)</b>에서 카드로 처리됩니다. 국내 카드·해외 카드 모두 되고, ' +
       '카드 명세서에는 <b>GUMROAD</b>로 표시됩니다. 계좌번호를 입력하거나 입금자명을 밝힐 필요가 없습니다.</p>' +
       '<div class="bank-row"><span class="k">상품</span><span class="v big">' + STORE.reading.usd + ' · ' + esc(STORE.reading.krw) + '</span></div>' +
-      '<div class="bank-row"><span class="k">전달</span><span class="v">A4 10장 내외 PDF · 48시간 이내</span></div>' +
-      '<a class="copy-btn" id="bank-pay-link" href="' + esc(STORE.reading.url) + '" target="_blank" rel="noopener">검로드 결제 페이지 열기</a>';
-    var ln = $('#bank-pay-link');
-    if (ln) {
-      ln.addEventListener('click', function () {
-        trackEvent('reading_pay_click', { product: 'mukwoldang-reading', value: 14.9, currency: 'USD', from: 'pay_modal' });
-      });
-    }
+      '<div class="bank-row"><span class="k">전달</span><span class="v">A4 10장 내외 PDF · 48시간 이내</span></div>';
     var step1 = $('#step1-text');
     if (step1) {
       step1.innerHTML = '아래 버튼을 누르면 검로드 결제창이 새 창으로 열립니다. 국내·해외 카드로 결제하고, 카드 명세서에는 <b>GUMROAD</b>로 표시됩니다. 계좌번호를 입력하거나 입금자명을 밝힐 필요가 없습니다.';
