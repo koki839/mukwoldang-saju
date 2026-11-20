@@ -389,7 +389,7 @@
       (p.clockShift ? '<p class="res-sub" style="margin-top:4px">출생 당시 시계를 지금의 표준시(KST)로 보정했습니다 — ' +
         (p.clockShift > 0 ? '+' : '') + p.clockShift + '분 (' + pad(p.effective.hour) + ':' + pad(p.effective.minute) + ' 기준)</p>' : '') +
       '<p class="res-lead">' + esc(stem.short) + '의 기운을 타고난 <b>' + S.STEM_KO[dayStem] + '</b> 일간입니다. ' +
-      (p.ganji.hour ? '여덟 글자가 모두 모였습니다.' : '태어난 시간을 몰라 일곱 글자 중 여섯 글자로 읽었습니다. 시간을 넣으면 시주까지 세울 수 있습니다.') +
+      (p.ganji.hour ? '여덟 글자가 모두 모였습니다.' : '태어난 시간을 몰라 여덟 글자 중 여섯 글자로 읽었습니다. 시간을 넣으면 시주까지 세울 수 있습니다.') +
       '</p>' +
       '</header>';
 
