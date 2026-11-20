@@ -9,13 +9,15 @@
 
 ```
 (저장소 루트)
-├── index.html              # 한 페이지 — 사주팔자 / 이별·치유 / 궁합 / 1:1 감정 4개 탭 + FAQ
+├── index.html              # 한 페이지 — 사주팔자 / 이별·치유 / 이별 타로 / 궁합 / 1:1 감정 5개 탭 + FAQ
 ├── css/style.css           # 디자인 (모바일 우선, 흑요석·단청와인·금박·창살 패턴)
 ├── js/saju.js              # 만세력 계산 엔진 (절기·음양력·사주 여덟 글자·십성·용신·궁합)
 ├── js/app.js               # 화면 로직 (폼·결과 렌더링·공유·신청 모달·GA4 이벤트)
 ├── data/calendar_data.js   # 24절기 절입시각(1890~2110) + 한국 음양력 표(1900~2050)
 ├── data/saju_data.js       # 일간 10종·오행·십성·60갑자 일주·신살 본문
 ├── data/content_more.js    # 세운(2026·2027)·이별 치유·궁합 본문
+├── data/tarot_data.js      # 이별·재회 타로 — 메이저 아르카나 22장 × 정/역 44가지 해석 + 3장 조합 총평·추천 행동
+├── js/tarot.js             # 타로 뽑기 보드(3D 플립)·3장 스프레드 해석 렌더링·공유·GA4
 ├── assets/banner_obsidian.jpg|webp   # 히어로 배너 (webp 136KB → jpg 236KB)
 ├── sitemap.xml · robots.txt
 └── .nojekyll                # GitHub Pages 가 Jekyll 없이 그대로 올리도록
@@ -49,6 +51,14 @@ python3 -m http.server 8000
 검증 스크립트(`_build/harness.py` — 85개 계산 검증 전부 통과)와 데이터 재생성 스크립트(`_build/gen_terms.py` 절기 / `_build/gen_lunar.py` 음양력)는 원본 작업 폴더에 있으며, 이 저장소에는 포함하지 않았습니다.
 ※ 지원 범위: 양력 1900~2050년. 그 밖은 화면에서 안내합니다.
 
+## 이별·재회 타로 (?tab=tarot)
+
+- 상황 선택 3가지(속마음 / 연락·타이밍 / 재회)를 고르면, 같은 카드라도 그 상황에 맞는 해석이 나옵니다.
+- 보드에서 카드 3장을 직접 클릭하면 3D 플립과 함께 ① 상대의 마음 ② 지금의 흐름 ③ 다가올 결말과 조언 자리에 놓입니다. `다시 뽑기`로 초기화합니다.
+- 해석 데이터는 `data/tarot_data.js` 한 파일에 있습니다. 카드별로 `head·tag·mood·timing·body·them·advice·do·t` 항목을 가지며, `mood`는 3장 조합 총평(`combo`, 27가지)과 주제별 마무리 문장(`closing`·`actions`)을 고르는 데 쓰입니다.
+- 카드 앞면은 카드별 SVG 상징(`js/tarot.js`의 `SIGILS`)으로 그려지고, 역방향은 상징만 180° 돌아갑니다.
+- 타로 결과도 공유 링크로 복원되며, 결과 하단에서 1:1 감정 모달로 이어집니다.
+
 ## 1:1 유료 신청 (계좌이체)
 
 `js/app.js` 상단의 `BANK_CONFIG` 하나만 고치면 화면·모달·복사 버튼이 모두 반영됩니다.
@@ -79,6 +89,7 @@ var BANK_CONFIG = {
 |---|---|
 | 사주 결과 아래 | `.ad-slot` (첫 결과가 나오면 표시) |
 | 이별 사주 결과 아래 | `.ad-slot` |
+| 타로 결과 아래 | `.ad-slot` (`#tarot-ad`, 결과가 나오면 표시) |
 | 궁합 결과 아래 | `.ad-slot` |
 
 결과가 없는 처음 화면에서는 슬롯이 보이지 않습니다(`hidden` 처리). `.ad-slot-wide` 클래스를 쓰면 더 높은 슬롯이 됩니다.
@@ -106,6 +117,9 @@ ID를 넣으면 `js/app.js` 가 gtag.js 를 로드하고 아래 이벤트를 자
 | `compat_view` | 궁합 조회 | score |
 | `apply_click` / `pay_open` | 1:1 신청 버튼 클릭 / 모달 열림 | product, amount |
 | `bank_copy`, `template_copy` | 계좌·양식 복사 | — |
+| `tarot_view` | 타로 3장 결과 표시 | topic, cards, restored |
+| `tarot_draw` | 카드를 한 장 뽑을 때 | slot, card, topic |
+| `tarot_share` / `tarot_cta` / `tarot_reset` | 타로 공유·1:1 연결·다시 뽑기 | topic, cards / type |
 | `share_click` | 공유 버튼 | method, screen |
 
 ## 공유·URL 복원
@@ -115,6 +129,7 @@ ID를 넣으면 `js/app.js` 가 gtag.js 를 로드하고 아래 이벤트를 자
   - 사주: `?tab=saju&cal=solar&birth=1985-01-01&time=10:00&gender=f`
   - 이별: `?tab=breakup&birth=...&when=months`
   - 궁합: `?tab=compat&birth=...&pbirth=1992-08-14&ptime=10:00&pgender=m`
+  - 타로: `?tab=tarot&topic=return&cards=6u,13r,19u` — 카드 번호 + 정/역(u/r)만 담기므로 뽑은 세 장이 그대로 복원됩니다.
 - 서버·DB에 저장하지 않습니다. 계산은 전부 브라우저 안에서 이루어집니다.
 
 ## 배포

@@ -913,7 +913,7 @@
   /* =====================================================
      8. 탭
      ===================================================== */
-  var TABS = ['saju', 'breakup', 'compat', 'premium'];
+  var TABS = ['saju', 'breakup', 'tarot', 'compat', 'premium'];
   function activateTab(name, opts) {
     if (TABS.indexOf(name) < 0) name = 'saju';
     $$('.tab').forEach(function (t) {
@@ -956,6 +956,7 @@
      9. 공유
      ===================================================== */
   function buildShareUrl(mode) {
+    if (mode === 'tarot' && window.MUKWO_TAROT_UI) return window.MUKWO_TAROT_UI.shareUrl();
     var base = location.origin + location.pathname;
     var q = ['tab=' + mode];
     function add(prefix, f) {
@@ -992,6 +993,7 @@
 
   function shareTitle(mode) {
     if (mode === 'breakup') return '이별·상처 치유 사주 · 묵월당';
+    if (mode === 'tarot') return '이별·재회 타로 3장 · 묵월당';
     if (mode === 'compat') return '연애 궁합 · 묵월당 사주';
     return '내 사주팔자 · 묵월당';
   }
@@ -1009,7 +1011,8 @@
       if (type === 'copy') {
         copyText(url, '링크를 복사했어요.');
       } else if (type === 'x') {
-        var text = shareTitle(mode) + ' — 여덟 글자로 읽는 나';
+        var text = mode === 'tarot' ? (shareTitle(mode) + ' · 나의 세 장은?')
+          : (shareTitle(mode) + ' — 여덟 글자로 읽는 나');
         window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(text) + '&url=' + encodeURIComponent(url), '_blank', 'noopener');
       } else if (type === 'kakao') {
         if (navigator.share) {
@@ -1054,6 +1057,11 @@
 
   function restoreFromParams() {
     var pr = parseParams();
+    if (pr.tab === 'tarot') {
+      /* 타로는 생년월일 없이 카드만으로 복원됩니다 (복원은 tarot.js가 처리) */
+      activateTab('tarot', { silent: true, noScroll: true });
+      return !!(new URLSearchParams(location.search).get('cards'));
+    }
     if (!pr.main) return false;
     var tab = TABS.indexOf(pr.tab) >= 0 ? pr.tab : 'saju';
     if (tab === 'premium') tab = 'saju';
@@ -1211,9 +1219,18 @@
     $$('.panel .ad-slot').forEach(function (ad) { ad.hidden = true; });
     var restored = restoreFromParams();
     trackEvent('page_view', { page: restored ? 'shared' : 'home' });
-    // 탭 최초 노출 이벤트
-    trackEvent('tab_view', { tab: 'saju' });
+    // 탭 최초 노출 이벤트 (공유 링크로 바로 열린 경우는 그 탭 기준)
+    if (!restored) trackEvent('tab_view', { tab: 'saju' });
   }
+
+  /* 다른 모듈(tarot.js)이 쓰는 최소한의 연결점 */
+  window.MUKWO = {
+    trackEvent: trackEvent,
+    toast: toast,
+    copyText: copyText,
+    activateTab: activateTab,
+    openPayModal: openModal
+  };
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', boot);

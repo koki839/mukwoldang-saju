@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>묵월당 사주 · 정통 사주팔자 만세력 · 이별 재회운 · 연애 궁합</title>
-<meta name="description" content="생년월일과 태어난 시간만 입력하면 만세력 기준으로 사주팔자 여덟 글자, 오행 밸런스, 일간 성격, 십성·용신, 2026~2027년 흐름까지. 이별 후 마음 정리와 재회운, 두 사람의 연애 궁합을 깊이 읽어 드립니다.">
-<meta name="keywords" content="사주,사주팔자,만세력,무료사주,정통사주,사주풀이,이별사주,재회운,연애궁합,궁합,오행,일간,십성,용신,2026년운세,2027년운세">
+<meta name="description" content="생년월일과 태어난 시간만 입력하면 만세력 기준으로 사주팔자 여덟 글자, 오행 밸런스, 일간 성격, 십성·용신, 2026~2027년 흐름까지. 이별 후 마음 정리와 재회운, 이별·재회 타로 3장 뽑기, 두 사람의 연애 궁합을 깊이 읽어 드립니다.">
+<meta name="keywords" content="사주,사주팔자,만세력,무료사주,정통사주,사주풀이,이별사주,재회운,이별타로,재회타로,타로카드,연락타로,타로뽑기,연애궁합,궁합,오행,일간,십성,용신,2026년운세,2027년운세">
 <meta name="robots" content="index,follow">
 <meta name="theme-color" content="#0A090D">
 <meta name="naver-site-verification" content="7f03d9f5c07fe01821ece8e5dd864651870d3e7f" />
@@ -33,7 +33,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-<link rel="stylesheet" href="css/style.css?v=20261121b">
+<link rel="stylesheet" href="css/style.css?v=20261121e">
 
 <!-- ================= GA4 (측정 ID만 넣으면 바로 동작) ================= -->
 <script>
@@ -85,6 +85,7 @@
     <nav class="header-nav" aria-label="주요 메뉴">
       <a href="#tabs" data-jump="saju">사주팔자</a>
       <a href="#tabs" data-jump="breakup">이별 치유</a>
+      <a href="#tabs" data-jump="tarot">이별 타로</a>
       <a href="#tabs" data-jump="compat">궁합</a>
       <a href="#tabs" data-jump="premium">1:1 감정</a>
     </nav>
@@ -127,13 +128,16 @@
   <div class="wrap" id="tabs">
     <div class="tabs" role="tablist" aria-label="사주 메뉴">
       <button class="tab is-active" role="tab" id="tab-saju" aria-controls="panel-saju" aria-selected="true" data-tab="saju">
-        <span class="tab-ico">☯</span>정통 사주팔자
+        <span class="tab-ico">☯</span>사주팔자
       </button>
       <button class="tab" role="tab" id="tab-breakup" aria-controls="panel-breakup" aria-selected="false" data-tab="breakup">
-        <span class="tab-ico">🌙</span>이별·상처 치유
+        <span class="tab-ico">🌙</span>이별 치유
+      </button>
+      <button class="tab" role="tab" id="tab-tarot" aria-controls="panel-tarot" aria-selected="false" data-tab="tarot">
+        <span class="tab-ico">🔮</span>이별 타로
       </button>
       <button class="tab" role="tab" id="tab-compat" aria-controls="panel-compat" aria-selected="false" data-tab="compat">
-        <span class="tab-ico">💗</span>연애 · 궁합
+        <span class="tab-ico">💗</span>궁합
       </button>
       <button class="tab" role="tab" id="tab-premium" aria-controls="panel-premium" aria-selected="false" data-tab="premium">
         <span class="tab-ico">✦</span>1:1 감정
@@ -278,7 +282,44 @@
       <div class="ad-slot" aria-hidden="true"><span>AD</span></div>
     </section>
 
-    <!-- ================= PANEL 3 : 연애·궁합 ================= -->
+    <!-- ================= PANEL 3 : 이별·재회 타로 ================= -->
+    <section class="panel" id="panel-tarot" role="tabpanel" aria-labelledby="tab-tarot" hidden>
+
+      <div class="card form-card tarot-intro">
+        <div class="card-head">
+          <p class="eyebrow">✦ 墨月堂 · 이별 타로 · 3장 스프레드</p>
+          <h2>세 장의 카드가, 아직 말하지 못한 마음을 읽습니다</h2>
+          <p class="card-sub">질문을 하나 고르고, 흑요석 카드 더미에서 세 장을 직접 골라 주세요. 첫 장은 <b>상대의 마음</b>, 둘째는 <b>지금의 흐름</b>, 셋째는 <b>다가올 결말과 조언</b> 자리에 놓입니다.</p>
+        </div>
+
+        <div class="tarot-topics" role="group" aria-label="상황 선택">
+          <button type="button" class="tchip is-on" data-topic="mind" aria-pressed="true"><span class="tchip-no">①</span>그 사람의 현재 속마음</button>
+          <button type="button" class="tchip" data-topic="contact" aria-pressed="false"><span class="tchip-no">②</span>연락이 올까요 · 타이밍</button>
+          <button type="button" class="tchip" data-topic="return" aria-pressed="false"><span class="tchip-no">③</span>재회 가능성과 내가 할 일</button>
+        </div>
+        <p class="tarot-lead" id="tarot-topic-lead">말하지 않은 마음까지 카드로 읽습니다. 지금 그 사람 안에서 무엇이 움직이고 있는지.</p>
+      </div>
+
+      <div class="tarot-board-wrap" id="tarot-board-wrap">
+        <div class="tarot-board-head">
+          <span class="tarot-step">STEP 1 · 카드 펼치기</span>
+          <p id="tarot-hint">마음을 가라앉히고, 카드 세 장을 직접 골라 주세요.</p>
+        </div>
+        <div class="tarot-board" id="tarot-board" aria-label="카드 열다섯 장 중 세 장을 고르세요"></div>
+        <div class="tarot-slots" id="tarot-slots" aria-live="polite"></div>
+        <div class="tarot-actions">
+          <button type="button" class="btn btn-ghost btn-sm" id="tarot-reset" disabled>↺ 다시 뽑기</button>
+          <span class="tarot-count" id="tarot-count">0 / 3</span>
+        </div>
+      </div>
+
+      <div id="tarot-result" class="result-area" aria-live="polite"></div>
+
+      <!-- 광고 슬롯 3 : 타로 결과 아래 -->
+      <div class="ad-slot" id="tarot-ad" aria-hidden="true" hidden><span>AD</span></div>
+    </section>
+
+    <!-- ================= PANEL 4 : 연애·궁합 ================= -->
     <section class="panel" id="panel-compat" role="tabpanel" aria-labelledby="tab-compat" hidden>
       <div class="card form-card">
         <div class="card-head">
@@ -360,7 +401,7 @@
       <div class="ad-slot" aria-hidden="true"><span>AD</span></div>
     </section>
 
-    <!-- ================= PANEL 4 : 1:1 유료 감정 ================= -->
+    <!-- ================= PANEL 5 : 1:1 유료 감정 ================= -->
     <section class="panel" id="panel-premium" role="tabpanel" aria-labelledby="tab-premium" hidden>
       <div class="premium-card">
         <p class="eyebrow">✦ 1:1 정밀 감정 · 48시간 이내</p>
@@ -503,10 +544,12 @@
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="data/calendar_data.js?v=20261121b"></script>
-<script src="data/saju_data.js?v=20261121b"></script>
-<script src="data/content_more.js?v=20261121b"></script>
-<script src="js/saju.js?v=20261121b"></script>
-<script src="js/app.js?v=20261121d"></script>
+<script src="data/calendar_data.js?v=20261121e"></script>
+<script src="data/saju_data.js?v=20261121e"></script>
+<script src="data/content_more.js?v=20261121e"></script>
+<script src="data/tarot_data.js?v=20261121e"></script>
+<script src="js/saju.js?v=20261121e"></script>
+<script src="js/app.js?v=20261121e"></script>
+<script src="js/tarot.js?v=20261121e"></script>
 </body>
 </html>
