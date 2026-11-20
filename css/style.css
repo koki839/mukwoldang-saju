@@ -1720,7 +1720,7 @@ h1, h2, h3, h4{
 }
 .tback-word{
   position: absolute;
-  left: 0; right: 0; bottom: 30%;
+  left: 0; right: 0; bottom: 25%;
   text-align: center;
   font-family: var(--serif);
   font-size: .78em;
@@ -1737,11 +1737,11 @@ h1, h2, h3, h4{
 }
 .tcard-name{
   position: absolute;
-  left: 4%; right: 4%; bottom: 6.5%;
+  left: 4%; right: 4%; bottom: 10.5%;
   text-align: center;
   font-family: var(--serif);
-  font-size: .82em;
-  line-height: 1.2;
+  font-size: .8em;
+  line-height: 1.18;
   letter-spacing: .01em;
   color: #F2E8D8;
   word-break: keep-all;
@@ -1749,9 +1749,9 @@ h1, h2, h3, h4{
 }
 .tcard-dir{
   position: absolute;
-  left: 0; right: 0; bottom: 1.6%;
+  left: 0; right: 0; bottom: 2.6%;
   text-align: center;
-  font-size: .56em;
+  font-size: .54em;
   letter-spacing: .16em;
   color: rgba(224,196,142,.62);
 }

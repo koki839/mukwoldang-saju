@@ -76,7 +76,7 @@
       '<svg class="tart" viewBox="0 0 100 150" aria-hidden="true" focusable="false">' +
         '<circle class="tart-ring" cx="50" cy="72" r="37"/>' +
         '<circle class="tart-ring2" cx="50" cy="72" r="31"/>' +
-        '<path class="tart-tick" d="M50 26v9M50 126v-9M26 72h6M74 72h-6"/>' +
+        '<path class="tart-tick" d="M50 26v9M26 72h6M74 72h-6"/>' +
         '<g class="tart-sigil">' + (SIGILS[card.no] || '') + '</g>' +
       '</svg>' +
       '<span class="tcard-num">' + esc(card.roman) + '</span>' +
@@ -275,7 +275,7 @@
         '<h3 class="tsec-title">' + esc(d.head) + '</h3>' +
         d.body.map(function (par) { return '<p class="para">' + esc(par) + '</p>'; }).join('') +
         (i === 0 ? '<div class="tquote"><b>상대의 속마음</b><p>' + esc(d.them) + '</p></div>' : '') +
-        '<div class="tfor"><b>' + esc(p.sub) + ' — 이 카드가 말하는 ' + esc(topic.short) + '</b>' +
+        '<div class="tfor"><b>이 카드가 말하는 ' + esc(topic.short) + '</b>' +
           '<p>' + esc(d.t[topic.id] || d.t.mind) + '</p></div>' +
         (i === 2 ? '<div class="tadvice"><b>현실 조언</b><p>' + esc(d.advice) + '</p></div>' +
           '<ul class="tdo">' + d.do.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>' : '') +
