@@ -919,7 +919,7 @@
           '<span class="uo-d">A4 10장 내외 감정서 · 원국 전체와 이별·재회 정밀 분석</span>' +
         '</button>' +
       '</div>' +
-      '<p class="upsell-foot">검로드(Gumroad) 익명 결제 · 국내·해외 카드 · 카드 명세서에는 GUMROAD로 표시됩니다.</p>' +
+      '<p class="upsell-foot">검로드(Gumroad) 익명 결제 · 국내·해외 카드 · 카드 명세서에는 GUMROAD로 표시 · 결제 시 환율·부가세(VAT) 반영</p>' +
     '</div>';
   }
 
