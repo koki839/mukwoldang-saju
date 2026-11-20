@@ -299,16 +299,13 @@
         '<button type="button" class="share-btn" data-share="copy">링크 복사</button>' +
       '</div>' +
       '<p class="tiny">링크를 복사해 두면 뽑은 세 장이 그대로 다시 열립니다.</p>' +
-      '<div class="tcta">' +
-        '<div class="tcta-t">' +
-          '<b>카드가 짚은 자리를, 사람이 한 번 더 읽어 드릴까요</b>' +
-          '<p>3장 타로는 지금의 흐름까지입니다. 두 사람의 생년월일과 그동안의 일을 함께 놓고 이별·재회를 정밀하게 짚는 1:1 감정서가 있습니다.</p>' +
-        '</div>' +
-        '<div class="tcta-b">' +
-          '<button type="button" class="btn btn-primary btn-sm" data-topen="1" aria-haspopup="dialog">1:1 감정 안내 보기 · ₩19,900</button>' +
-          '<button type="button" class="btn btn-ghost btn-sm" data-ttab="premium">1:1 감정 탭으로</button>' +
-        '</div>' +
-      '</div>' +
+      (window.MUKWO && window.MUKWO.upsellHtml
+        ? window.MUKWO.upsellHtml({
+            from: 'tarot',
+            title: '카드가 짚은 자리에서, 한 가지만 더',
+            sub: '3장 타로는 지금의 흐름까지입니다. 뽑으신 세 장을 그대로 두고 궁금한 것 한 가지만 더 짚어 드리거나, 생년월일까지 놓고 이별·재회를 정밀하게 읽어 드립니다.'
+          })
+        : '') +
     '</div>';
 
     html += '</div>';
@@ -473,6 +470,16 @@
     shareUrl: function () {
       if (state.cards.length === 3) return shareUrl();
       return location.origin + location.pathname + '?tab=tarot';
+    },
+    /* 추가 질문 모달이 "지금 보고 있는 결과"로 채워 넣는 한 줄 요약 */
+    summary: function () {
+      if (state.cards.length !== 3) return '';
+      var t = TOPICS[state.topic] || T.topics[0];
+      var names = state.cards.map(function (c) {
+        var card = T.cards[c.no];
+        return card.name + '(' + (c.rev ? '역' : '정') + ')';
+      }).join(' · ');
+      return '이별 타로 · ' + t.label + ' · ' + names;
     },
     restore: restoreFromUrl,
     hasSpread: function () { return state.cards.length === 3; }

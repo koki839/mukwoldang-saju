@@ -33,7 +33,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-<link rel="stylesheet" href="css/style.css?v=20261121g">
+<link rel="stylesheet" href="css/style.css?v=20261121i">
 
 <!-- ================= GA4 (측정 ID만 넣으면 바로 동작) ================= -->
 <script>
@@ -417,12 +417,19 @@
           <li>2026~2027년 월별 흐름과 행동 타이밍</li>
           <li>A4 10장 내외 PDF 감정서 · 48시간 이내 전달</li>
         </ul>
-        <div class="premium-actions">
-          <button type="button" class="btn btn-primary" id="kr-pay-btn" aria-haspopup="dialog" aria-controls="pay-modal">
-            1:1 심층 사주 신청하기 · ₩19,900
+        <div class="upsell-grid">
+          <button type="button" class="upsell-opt" data-qa-open="premium">
+            <span class="uo-k">추가 질문하기</span>
+            <span class="uo-v">$4.90<em>약 ₩6,900</em></span>
+            <span class="uo-d">사이트에서 본 결과에서 한 가지만 더 · 48시간 이내 글로 답장</span>
           </button>
-          <span class="premium-note">계좌이체 신청 방식 · 신청 안내는 버튼을 누르면 열립니다.</span>
+          <button type="button" class="upsell-opt is-primary" id="kr-pay-btn" aria-haspopup="dialog" aria-controls="pay-modal">
+            <span class="uo-k">1:1 정밀 감정</span>
+            <span class="uo-v">$14.90<em>약 ₩19,900</em></span>
+            <span class="uo-d">A4 10장 내외 감정서 · 48시간 이내 · 원국 전체 해석</span>
+          </button>
         </div>
+        <p class="premium-note">검로드(Gumroad) 익명 결제 · 국내·해외 카드 모두 가능, 계좌번호 입력 없음 · 카드 명세서에는 GUMROAD로 표시됩니다.</p>
         <p class="premium-caution">※ 감정서는 전통 명리학에 근거한 해석이며, 미래를 확정하는 예언이 아닙니다. 의료·법률·투자 판단의 근거로 사용하지 마세요.</p>
       </div>
     </section>
@@ -472,7 +479,7 @@
     </details>
     <details class="faq-item">
       <summary>1:1 감정은 어떻게 신청하나요?</summary>
-      <p>‘1:1 감정’ 탭에서 신청 버튼을 누르면 안내가 열립니다. 계좌이체로 입금하신 뒤 입금자명·생년월일·질문 3가지를 이메일로 보내 주시면, 48시간 이내에 PDF 감정서를 보내 드립니다.</p>
+      <p>‘1:1 감정’ 탭에서 신청 버튼을 누르면 안내가 열립니다. 검로드(Gumroad)에서 국내·해외 카드로 익명 결제하신 뒤, 생년월일·질문 3가지를 이메일로 보내 주시면 48시간 이내에 PDF 감정서를 보내 드립니다. 카드 명세서에는 GUMROAD로 표시되고, 계좌번호를 입력할 필요가 없습니다.</p>
     </details>
   </section>
 
@@ -497,13 +504,13 @@
     <div class="modal-head">
       <p class="eyebrow">1:1 정밀 감정 신청</p>
       <h2 id="pay-title">1:1 정밀 사주 &amp; 이별·재회 감정서</h2>
-      <p class="modal-price">₩19,900 <span>· 48시간 이내 PDF</span></p>
+      <p class="modal-price">$14.90 <span>· 약 ₩19,900 · 48시간 이내 PDF</span></p>
     </div>
 
     <div class="modal-body">
-      <!-- 입금 계좌 -->
+      <!-- 결제 수단 안내 (검로드 익명 결제) -->
       <div class="bank-box" id="bank-box">
-        <!-- 계좌가 설정되면 app.js가 이 안을 채웁니다 -->
+        <!-- app.js가 검로드 결제 안내로 채웁니다 -->
       </div>
 
       <!-- 신청 순서 -->
@@ -511,15 +518,16 @@
         <li>
           <span class="flow-num" aria-hidden="true">1</span>
           <div class="flow-body">
-            <b>계좌이체로 입금</b>
-            <p id="step1-text">위 계좌로 <b>₩19,900</b>을 입금해 주세요. 입금자명은 신청서에 적는 이름과 같게 해 주세요.</p>
+            <b>검로드에서 익명으로 결제</b>
+            <p id="step1-text">아래 버튼을 누르면 검로드 결제창이 새 창으로 열립니다. 국내·해외 카드로 결제하고, 카드 명세서에는 <b>GUMROAD</b>로 표시됩니다. 계좌번호를 입력하거나 입금자명을 밝힐 필요가 없습니다.</p>
+            <a class="btn btn-primary btn-sm" id="pay-gumroad-btn" href="https://tarotcorgi.gumroad.com/l/mukwoldang-reading" target="_blank" rel="noopener">검로드로 익명 결제하기 · $14.90</a>
           </div>
         </li>
         <li>
           <span class="flow-num" aria-hidden="true">2</span>
           <div class="flow-body">
             <b>신청서 작성 후 접수</b>
-            <p>입금자명 · 생년월일(양력/음력, 태어난 시간) · 궁금한 질문 3가지를 아래 양식에 담아 <b id="contact-label"></b>로 보내 주세요.</p>
+            <p>생년월일(양력/음력, 태어난 시간) · 성별 · 상대 생년월일(원할 때만) · 질문 3가지를 아래 양식에 담아 <b id="contact-label"></b>로 보내 주세요. 검로드 주문번호를 함께 적어 주시면 바로 확인합니다.</p>
             <button type="button" class="btn btn-ghost btn-sm" id="copy-form-btn">신청서 양식 복사</button>
           </div>
         </li>
@@ -534,6 +542,66 @@
 
       <div class="modal-note">
         <p>질문은 같은 사주에서도 답이 갈리는 지점을 골라 주세요. 예: “지금 이 사람과 재회할 수 있을까요”, “올해 이직이 맞을까요”, “이별 후 새 인연은 언제인가요”.</p>
+        <p>결제와 답장은 이메일로만 오갑니다. 주문번호·이름 외의 정보는 요청하지 않고, 답장 목적 외에 쓰지 않습니다.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= 추가 질문 모달 (검로드 익명 결제) ================= -->
+<div class="modal" id="qa-modal" role="dialog" aria-modal="true" aria-labelledby="qa-title" hidden>
+  <div class="modal-backdrop" data-qaclose="1"></div>
+  <div class="modal-card" role="document">
+    <button type="button" class="modal-close" aria-label="닫기" data-qaclose="1">✕</button>
+    <div class="modal-head">
+      <p class="eyebrow">✦ 추가 질문 · 1문항</p>
+      <h2 id="qa-title">지금 결과에서, 한 가지만 더</h2>
+      <p class="modal-price">$4.90 <span>· 약 ₩6,900 · 48시간 이내</span></p>
+    </div>
+
+    <div class="modal-body">
+      <div class="qa-block">
+        <span class="qa-label">보고 계신 결과</span>
+        <div class="qa-summary" id="qa-summary">사주나 타로 결과를 먼저 보시면 여기에 자동으로 담깁니다. 담기지 않아도 아래 질문만 적어 보내 주시면 됩니다.</div>
+      </div>
+
+      <div class="qa-block">
+        <label class="qa-label" for="qa-question">궁금한 것 한 가지</label>
+        <textarea class="qa-input" id="qa-question" rows="3" placeholder="예: 그 사람이 지금 나를 떠올리는 순간은 언제인가요?"></textarea>
+      </div>
+
+      <ol class="flow-list">
+        <li>
+          <span class="flow-num" aria-hidden="true">1</span>
+          <div class="flow-body">
+            <b>검로드에서 익명으로 결제</b>
+            <p>국내·해외 카드로 결제하고, 카드 명세서에는 <b>GUMROAD</b>로 표시됩니다. 계좌번호도, 실명도 밝힐 필요가 없습니다.</p>
+            <a class="btn btn-primary btn-sm" id="qa-pay-btn" href="https://tarotcorgi.gumroad.com/l/mukwoldang-qa" target="_blank" rel="noopener">검로드로 익명 결제하기 · $4.90</a>
+          </div>
+        </li>
+        <li>
+          <span class="flow-num" aria-hidden="true">2</span>
+          <div class="flow-body">
+            <b>질문 양식 복사 → 메일</b>
+            <p>위 질문과 결과 요약을 양식에 담아 드립니다. 복사한 뒤 <b>dfkgj3147@gmail.com</b> 으로 보내 주세요. 결제 영수증의 주문번호를 함께 적어 주시면 바로 확인합니다.</p>
+            <button type="button" class="btn btn-ghost btn-sm" id="qa-copy-btn">질문 양식 복사</button>
+          </div>
+        </li>
+        <li>
+          <span class="flow-num" aria-hidden="true">3</span>
+          <div class="flow-body">
+            <b>48시간 이내 답장</b>
+            <p>A4 1~2장 분량의 글로, 궁금한 지점 하나를 깊게 짚어 드립니다.</p>
+          </div>
+        </li>
+      </ol>
+
+      <div class="qa-actions">
+        <a class="btn btn-ghost" id="qa-mail-btn" href="mailto:dfkgj3147@gmail.com">메일로 질문 보내기</a>
+      </div>
+
+      <div class="modal-note">
+        <p>결제와 답장은 이메일로만 오갑니다. 이름·연락처는 답장 목적 외에 쓰지 않고, 답변 후 보관하지 않습니다.</p>
       </div>
     </div>
   </div>
@@ -549,7 +617,7 @@
 <script src="data/content_more.js?v=20261121e"></script>
 <script src="data/tarot_data.js?v=20261121g"></script>
 <script src="js/saju.js?v=20261121e"></script>
-<script src="js/app.js?v=20261121e"></script>
-<script src="js/tarot.js?v=20261121h"></script>
+<script src="js/app.js?v=20261121i"></script>
+<script src="js/tarot.js?v=20261121i"></script>
 </body>
 </html>

@@ -9,15 +9,30 @@
      0. 설정값
      ===================================================== */
 
-  // 계좌이체 신청 설정 — 값만 채우면 화면이 바로 바뀝니다.
+  /* 검로드(Gumroad) 익명 결제 상품 — 2026-11-21 발행.
+     결제는 검로드에서 카드로 처리되고(카드 명세서 GUMROAD), 사이트는 해당 상품 직링크를 연다. */
+  var STORE = {
+    email: 'dfkgj3147@gmail.com',
+    qa: {
+      url: 'https://tarotcorgi.gumroad.com/l/mukwoldang-qa',
+      usd: '$4.90',
+      krw: '약 ₩6,900',
+      name: '추가 질문 1회'
+    },
+    reading: {
+      url: 'https://tarotcorgi.gumroad.com/l/mukwoldang-reading',
+      usd: '$14.90',
+      krw: '약 ₩19,900',
+      name: '1:1 정밀 사주 & 이별·재회 감정서'
+    }
+  };
+
+  // 1:1 정밀 감정 설정 — 계좌이체 대신 검로드 익명 결제를 안내합니다.
   var BANK_CONFIG = {
-    bank: '',            // 예: '카카오뱅크'
-    account: '',         // 예: '3333-00-0000000'
-    holder: '',          // 예금주
     amount: 19900,
-    product: '1:1 정밀 사주 & 이별·재회 감정서',
+    product: STORE.reading.name,
     turnaround: '48시간',
-    contactEmail: 'dfkgj3147@gmail.com',
+    contactEmail: STORE.email,
     contactKakao: ''     // 예: 'https://open.kakao.com/o/xxxxxxx'
   };
 
@@ -519,6 +534,13 @@
       '<p class="para">링크를 저장하면 같은 사주를 다시 열 수 있습니다. 생년월일이 주소에 담기므로, 공유는 원하는 사람에게만 하세요.</p>' +
       shareRow() + '</div>';
 
+    /* 추가 질문 · 1:1 정밀 감정 */
+    html += upsellHtml({
+      from: 'saju',
+      title: '이 여덟 글자에서, 한 가지만 더',
+      sub: '사주가 말해 주는 것에는 한계가 있습니다. 지금 고민하는 그 한 가지를 짚어 드리려면, 결과를 이미 아는 사람이 한 번 더 읽어야 합니다.'
+    });
+
     return html;
   }
 
@@ -674,11 +696,11 @@
 
     html += '<div class="card"><h3 class="sec-title">이 사주를 남겨 두기</h3>' + shareRow() + '</div>';
 
-    html += '<div class="card" style="text-align:center">' +
-      '<h3 class="sec-title" style="justify-content:center">더 깊이 읽고 싶다면</h3>' +
-      '<p class="para">지금의 이별과 다음 인연을 한 사람이 직접 읽어 드리는 1:1 정밀 감정서가 있습니다.</p>' +
-      '<p><button type="button" class="btn btn-primary" data-goto="premium">1:1 정밀 감정 보기 · ₩19,900</button></p>' +
-      '</div>';
+    html += upsellHtml({
+      from: 'breakup',
+      title: '이 이별에서, 한 가지만 더',
+      sub: '“재회가 될까”, “연락이 올까”처럼 답이 갈리는 질문은 사주 한 장으로는 반만 답합니다. 한 사람이 당신의 상황까지 놓고 읽어 드립니다.'
+    });
 
     return html;
   }
@@ -867,6 +889,40 @@
      ===================================================== */
   var lastInput = { saju: null, breakup: null, me: null, you: null };
 
+  /* 추가 질문 모달이 채워 쓸 "지금 보고 있는 결과" 요약 */
+  var lastContext = { kind: '', summary: '' };
+  var qaKind = 'result';
+
+  function birthLine(f) {
+    var cal = f.cal === 'lunar' ? '음력' : '양력';
+    var t = f.timeKnown ? (pad(f.hour) + ':' + pad(f.minute)) : '시간 모름';
+    return cal + ' ' + f.y + '-' + pad(f.m) + '-' + pad(f.d) + ' ' + t + ' · ' + (f.gender === 'm' ? '남성' : '여성');
+  }
+
+  /* 결과 하단 공통 CTA — 추가 질문(₩4.90) · 1:1 정밀 감정(₩14.90) */
+  function upsellHtml(opts) {
+    var o = opts || {};
+    var title = o.title || '이 결과에서 한 가지만 더';
+    var sub = o.sub || '여기까지가 여덟 글자와 카드가 스스로 말해 주는 것입니다. 그 너머의 한 가지를, 한 사람이 직접 읽어 드릴 수 있습니다.';
+    return '<div class="upsell">' +
+      '<div class="upsell-head"><b>' + esc(title) + '</b><span>48시간 이내</span></div>' +
+      '<p class="upsell-sub">' + esc(sub) + '</p>' +
+      '<div class="upsell-grid">' +
+        '<button type="button" class="upsell-opt" data-qa-open="' + esc(o.from || 'result') + '">' +
+          '<span class="uo-k">추가 질문하기</span>' +
+          '<span class="uo-v">' + STORE.qa.usd + '<em>' + esc(STORE.qa.krw) + '</em></span>' +
+          '<span class="uo-d">지금 결과에서 딱 한 가지 더 · 글로 답장</span>' +
+        '</button>' +
+        '<button type="button" class="upsell-opt is-primary" data-pay-open="1">' +
+          '<span class="uo-k">1:1 정밀 감정</span>' +
+          '<span class="uo-v">' + STORE.reading.usd + '<em>' + esc(STORE.reading.krw) + '</em></span>' +
+          '<span class="uo-d">A4 10장 내외 감정서 · 원국 전체와 이별·재회 정밀 분석</span>' +
+        '</button>' +
+      '</div>' +
+      '<p class="upsell-foot">검로드(Gumroad) 익명 결제 · 국내·해외 카드 · 카드 명세서에는 GUMROAD로 표시됩니다.</p>' +
+    '</div>';
+  }
+
   function computeAndRender(mode) {
     var area, html;
     try {
@@ -876,6 +932,10 @@
         var p = S.pillars(f);
         if (p.error) { toast(p.error); return; }
         var an = S.analyze(p);
+        lastContext = {
+          kind: '사주팔자',
+          summary: '사주팔자 · ' + birthLine(f) + ' · 일간 ' + S.STEM_KO[p.day.stem] + ' · 일주 ' + p.ganjiKo.day
+        };
         html = renderSaju(p, an, f);
         area = $('#saju-result');
         trackEvent('saju_view', { calendar: f.cal, time_known: f.timeKnown ? 'yes' : 'no', day_ganji: p.ganji.day });
@@ -886,6 +946,11 @@
         if (pb.error) { toast(pb.error); return; }
         var anb = S.analyze(pb);
         var when = $('#panel-breakup .chip.is-on');
+        lastContext = {
+          kind: '이별 치유 사주',
+          summary: '이별 치유 사주 · ' + birthLine(fb) + ' · 일간 ' + S.STEM_KO[pb.day.stem] +
+            (when ? ' · 이별 ' + when.textContent.trim() : '')
+        };
         html = renderBreakup(pb, anb, fb, when ? when.getAttribute('data-when') : null);
         area = $('#breakup-result');
         trackEvent('breakup_view', { when: when ? when.getAttribute('data-when') : 'none' });
@@ -1085,45 +1150,35 @@
   function renderBankBox() {
     var box = $('#bank-box');
     if (!box) return;
-    var hasAccount = !!(BANK_CONFIG.bank && BANK_CONFIG.account && BANK_CONFIG.holder);
+    box.innerHTML =
+      '<p class="bank-pending">결제는 <b>검로드(Gumroad)</b>에서 카드로 처리됩니다. 국내 카드·해외 카드 모두 되고, ' +
+      '카드 명세서에는 <b>GUMROAD</b>로 표시됩니다. 계좌번호를 입력하거나 입금자명을 밝힐 필요가 없습니다.</p>' +
+      '<div class="bank-row"><span class="k">상품</span><span class="v big">' + STORE.reading.usd + ' · ' + esc(STORE.reading.krw) + '</span></div>' +
+      '<div class="bank-row"><span class="k">전달</span><span class="v">A4 10장 내외 PDF · 48시간 이내</span></div>' +
+      '<a class="copy-btn" id="bank-pay-link" href="' + esc(STORE.reading.url) + '" target="_blank" rel="noopener">검로드 결제 페이지 열기</a>';
+    var ln = $('#bank-pay-link');
+    if (ln) {
+      ln.addEventListener('click', function () {
+        trackEvent('reading_pay_click', { product: 'mukwoldang-reading', value: 14.9, currency: 'USD', from: 'pay_modal' });
+      });
+    }
     var step1 = $('#step1-text');
     if (step1) {
-      step1.innerHTML = hasAccount
-        ? '위 계좌로 <b>₩' + Number(BANK_CONFIG.amount).toLocaleString('ko-KR') + '</b>을 입금해 주세요. 입금자명은 신청서에 적는 이름과 같게 해 주세요.'
-        : '먼저 아래 이메일로 문의해 주시면 <b>입금 계좌와 금액</b>을 안내해 드립니다. 계좌가 열리는 대로 이 페이지에서도 바로 확인하실 수 있습니다.';
-    }
-    if (!hasAccount) {
-      box.innerHTML = '<p class="bank-pending">현재 1:1 정밀 감정 <b>계좌 오픈 준비 중</b>입니다.<br>' +
-        '신청을 원하시면 아래 이메일(<b>' + esc(BANK_CONFIG.contactEmail) + '</b>)로 먼저 문의해 주세요. ' +
-        '입금 계좌와 안내를 순서대로 보내 드립니다.</p>' +
-        '<a class="copy-btn" href="mailto:' + esc(BANK_CONFIG.contactEmail) + '?subject=' + encodeURIComponent('[묵월당] 1:1 정밀 감정 문의') + '">메일로 문의하기</a>';
-      return;
-    }
-    var acct = BANK_CONFIG.bank + ' ' + BANK_CONFIG.account;
-    box.innerHTML =
-      '<div class="bank-row"><span class="k">입금 계좌</span><span class="v big">' + esc(acct) + '</span></div>' +
-      '<div class="bank-row"><span class="k">예금주</span><span class="v">' + esc(BANK_CONFIG.holder) + '</span></div>' +
-      '<div class="bank-row"><span class="k">입금 금액</span><span class="v">₩' + Number(BANK_CONFIG.amount).toLocaleString('ko-KR') + '</span></div>' +
-      '<button type="button" class="copy-btn" id="copy-bank-btn">계좌번호 복사</button>';
-    var cb = $('#copy-bank-btn');
-    if (cb) {
-      cb.addEventListener('click', function () {
-        copyText(BANK_CONFIG.account.replace(/[^0-9]/g, ''), '계좌번호를 복사했어요.');
-        trackEvent('bank_copy', {});
-      });
+      step1.innerHTML = '아래 버튼을 누르면 검로드 결제창이 새 창으로 열립니다. 국내·해외 카드로 결제하고, 카드 명세서에는 <b>GUMROAD</b>로 표시됩니다. 계좌번호를 입력하거나 입금자명을 밝힐 필요가 없습니다.';
     }
   }
 
   function applyTemplate() {
     return '[묵월당 1:1 정밀 감정 신청]\n' +
-      '· 상품: ' + BANK_CONFIG.product + ' (₩' + Number(BANK_CONFIG.amount).toLocaleString('ko-KR') + ')\n' +
-      '· 입금자명: \n' +
+      '· 상품: ' + BANK_CONFIG.product + ' (' + STORE.reading.usd + ')\n' +
+      '· 검로드 주문번호: \n' +
       '· 생년월일: (양력/음력) ____년 __월 __일\n' +
       '· 태어난 시간: (모르면 "모름")\n' +
       '· 성별: \n' +
       '· 상대 생년월일(궁합 희망 시): \n' +
+      '· 이별한 시기·지금 상황: \n' +
       '\n· 질문 1. \n· 질문 2. \n· 질문 3. \n\n' +
-      '※ 입금 후 위 내용을 ' + BANK_CONFIG.contactEmail + ' 로 보내 주세요.';
+      '※ 위 내용을 ' + BANK_CONFIG.contactEmail + ' 로 보내 주세요.';
   }
 
   function openModal() {
@@ -1135,7 +1190,7 @@
     var closeBtn = $('.modal-close', m);
     if (closeBtn) closeBtn.focus();
     trackEvent('pay_open', {});
-    trackEvent('apply_click', { product: BANK_CONFIG.product, amount: BANK_CONFIG.amount });
+    trackEvent('reading_open', { product: 'mukwoldang-reading', value: 14.9, currency: 'USD' });
   }
 
   function closeModal() {
@@ -1147,9 +1202,132 @@
     if (btn) btn.focus();
   }
 
+  /* ---------- 추가 질문 모달 (검로드 익명 결제) ---------- */
+
+  function tarotSummary() {
+    var u = window.MUKWO_TAROT_UI;
+    if (u && typeof u.summary === 'function') return u.summary();
+    return '';
+  }
+
+  function currentSummary(kind) {
+    var taro = tarotSummary();
+    if (kind === 'tarot' && taro) return taro;
+    if (lastContext.summary) return lastContext.summary;
+    return taro;
+  }
+
+  function qaTemplate() {
+    var qEl = $('#qa-question');
+    var q = qEl && qEl.value ? qEl.value.trim() : '';
+    var sum = currentSummary(qaKind);
+    return '[묵월당 추가 질문 1회]\n' +
+      '· 상품: 추가 질문 1회 (' + STORE.qa.usd + ')\n' +
+      '· 검로드 주문번호: \n' +
+      '· 보고 있던 결과: ' + (sum || '(사주·타로 결과 요약을 한 줄로 적어 주세요)') + '\n' +
+      '· 생년월일 / 태어난 시간 / 성별: \n' +
+      '· 추가 질문: ' + (q || '(궁금한 것 한 가지)') + '\n\n' +
+      '※ 위 내용을 ' + STORE.email + ' 로 보내 주세요.';
+  }
+
+  function updateQaMail() {
+    var a = $('#qa-mail-btn');
+    if (!a) return;
+    a.href = 'mailto:' + STORE.email +
+      '?subject=' + encodeURIComponent('[묵월당] 추가 질문 1회') +
+      '&body=' + encodeURIComponent(qaTemplate());
+  }
+
+  function openQaModal(kind) {
+    qaKind = kind || 'result';
+    var m = $('#qa-modal');
+    if (!m) return;
+    var sumEl = $('#qa-summary');
+    var sum = currentSummary(qaKind);
+    if (sumEl) {
+      sumEl.textContent = sum || '사주나 타로 결과를 먼저 보시면 여기에 자동으로 담깁니다. 담기지 않아도 질문만 적어 보내 주시면 됩니다.';
+      sumEl.classList.toggle('is-empty', !sum);
+    }
+    var qEl = $('#qa-question');
+    if (qEl) qEl.value = '';
+    updateQaMail();
+    m.hidden = false;
+    document.body.style.overflow = 'hidden';
+    var c = $('.modal-close', m);
+    if (c) c.focus();
+    trackEvent('qa_open', { from: qaKind, has_context: sum ? 'yes' : 'no' });
+  }
+
+  function closeQaModal() {
+    var m = $('#qa-modal');
+    if (!m) return;
+    m.hidden = true;
+    document.body.style.overflow = '';
+  }
+
+  function initQaModal() {
+    var m = $('#qa-modal');
+    if (!m) return;
+    $$('[data-qaclose]', m).forEach(function (b) {
+      b.addEventListener('click', closeQaModal);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !m.hidden) closeQaModal();
+    });
+
+    var pay = $('#qa-pay-btn');
+    if (pay) {
+      pay.addEventListener('click', function () {
+        trackEvent('qa_pay_click', { product: 'mukwoldang-qa', value: 4.9, currency: 'USD' });
+      });
+    }
+    var mail = $('#qa-mail-btn');
+    if (mail) {
+      mail.addEventListener('click', function () {
+        updateQaMail();
+        trackEvent('qa_mail_click', {});
+      });
+    }
+    var copy = $('#qa-copy-btn');
+    if (copy) {
+      copy.addEventListener('click', function () {
+        copyText(qaTemplate(), '질문 양식을 복사했어요. 메일에 붙여넣어 주세요.');
+        trackEvent('qa_template_copy', {});
+      });
+    }
+    var qEl = $('#qa-question');
+    if (qEl) qEl.addEventListener('input', updateQaMail);
+  }
+
+  /* 결과 안의 두 CTA(추가 질문 · 1:1 정밀 감정)를 한 곳에서 처리 */
+  function initUpsell() {
+    document.addEventListener('click', function (e) {
+      var t = e.target;
+      if (!t || !t.closest) return;
+      var qa = t.closest('[data-qa-open]');
+      if (qa) {
+        e.preventDefault();
+        openQaModal(qa.getAttribute('data-qa-open'));
+        return;
+      }
+      var pay = t.closest('[data-pay-open]');
+      if (pay) {
+        e.preventDefault();
+        openModal();
+      }
+    });
+  }
+
   function initModal() {
     var payBtn = $('#kr-pay-btn');
     if (payBtn) payBtn.addEventListener('click', openModal);
+
+    var gm = $('#pay-gumroad-btn');
+    if (gm) {
+      gm.addEventListener('click', function () {
+        trackEvent('reading_pay_click', { product: 'mukwoldang-reading', value: 14.9, currency: 'USD', from: 'pay_modal' });
+      });
+    }
 
     var modal = $('#pay-modal');
     if (!modal) return;
@@ -1215,6 +1393,8 @@
     initButtons();
     initShare();
     initModal();
+    initQaModal();
+    initUpsell();
     initHash();
     $$('.panel .ad-slot').forEach(function (ad) { ad.hidden = true; });
     var restored = restoreFromParams();
@@ -1229,7 +1409,10 @@
     toast: toast,
     copyText: copyText,
     activateTab: activateTab,
-    openPayModal: openModal
+    openPayModal: openModal,
+    openQaModal: openQaModal,
+    upsellHtml: upsellHtml,
+    contextSummary: function () { return currentSummary('result'); }
   };
 
   if (document.readyState === 'loading') {
