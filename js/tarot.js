@@ -99,7 +99,6 @@
         '<path class="tart-seal" d="M42 116h16v11H42z"/>' +
         '<path class="tart-seal-t" d="M46 120h8M46 124h8"/>' +
       '</svg>' +
-      '<span class="tback-word">墨月</span>' +
     '</span>';
   }
 

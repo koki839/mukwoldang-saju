@@ -1718,15 +1718,6 @@ h1, h2, h3, h4{
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-.tback-word{
-  position: absolute;
-  left: 0; right: 0; bottom: 25%;
-  text-align: center;
-  font-family: var(--serif);
-  font-size: .78em;
-  letter-spacing: .3em;
-  color: rgba(224,196,142,.42);
-}
 .tcard-num{
   position: absolute;
   top: 4%; left: 8%;
@@ -2026,8 +2017,8 @@ h1, h2, h3, h4{
   .tsec{ padding: 30px 30px 28px; }
   .tsec-title{ font-size: 22px; }
   .tres-visual{ padding: 24px 22px 22px; }
-  .tres-deck{ gap: 18px; max-width: 520px; margin: 0 auto; }
-  .tmini .tface-front{ font-size: 13px; }
+  .tres-deck{ gap: 20px; max-width: 620px; margin: 0 auto; }
+  .tmini .tface-front{ font-size: 14px; }
   .tres-card figcaption b{ font-size: 15px; }
   .tres-sub{ font-size: 14.5px; }
   .tsynth h3{ font-size: 25px; }
