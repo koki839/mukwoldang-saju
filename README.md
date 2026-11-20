@@ -59,27 +59,22 @@ python3 -m http.server 8000
 - 카드 앞면은 카드별 SVG 상징(`js/tarot.js`의 `SIGILS`)으로 그려지고, 역방향은 상징만 180° 돌아갑니다.
 - 타로 결과도 공유 링크로 복원되며, 결과 하단에서 1:1 감정 모달로 이어집니다.
 
-## 1:1 유료 신청 (계좌이체)
+## 유료 상품 두 가지 (검로드 익명 결제)
 
-`js/app.js` 상단의 `BANK_CONFIG` 하나만 고치면 화면·모달·복사 버튼이 모두 반영됩니다.
+계좌이체는 쓰지 않습니다. 결제는 검로드(Gumroad)의 한국어 상품 2종에서 카드로 처리되고, 사이트는 그 상품의 직링크만 엽니다. 구매자는 계좌번호도 실명도 밝히지 않습니다(카드 명세서에는 GUMROAD로 표시).
 
-```js
-var BANK_CONFIG = {
-  bank: '',        // 예: '카카오뱅크'
-  account: '',     // 예: '3333-00-0000000'
-  holder: '',      // 예금주
-  amount: 19900,
-  product: '1:1 정밀 사주 & 이별·재회 감정서',
-  turnaround: '48시간',
-  contactEmail: 'dfkgj3147@gmail.com',
-  contactKakao: ''
-};
-```
+| 상품 | 가격 | 검로드 URL | 사이트에서 뜨는 곳 |
+|---|---|---|---|
+| 추가 질문 1회 (`mukwoldang-qa`) | $4.90 · 약 ₩6,900 | `https://tarotcorgi.gumroad.com/l/mukwoldang-qa` | 사주팔자·이별 치유·이별 타로 결과 하단, 1:1 탭 |
+| 1:1 정밀 사주 & 이별·재회 감정서 (`mukwoldang-reading`) | $14.90 · 약 ₩19,900 | `https://tarotcorgi.gumroad.com/l/mukwoldang-reading` | 결과 하단, 1:1 탭, 1:1 신청 모달 |
 
-- `bank`·`account`·`holder` 중 하나라도 비어 있으면 **“계좌 오픈 준비 중”** 안내와 이메일 문의 버튼이 나옵니다. 세 값을 채우면 입금 계좌 박스 + **계좌번호 복사 버튼** + 단계별 안내로 자동 전환됩니다.
-- `contactKakao` 에 오픈채팅 주소를 넣으면 접수처 표기가 ‘오픈채팅’으로 바뀝니다(비워 두면 이메일).
-- 모달은 ‘1:1 심층 사주 신청하기’ 버튼(`#kr-pay-btn`)을 누른 사람에게만 열립니다. 초기 화면에는 계좌 정보가 노출되지 않습니다. ESC·배경 클릭·닫기 버튼으로 닫힙니다.
-- 신청서 양식(입금자명·생년월일·질문 3개)은 `#copy-form-btn` 으로 복사됩니다.
+- 설정은 `js/app.js` 상단 `STORE` 하나입니다. URL·가격 문구·이메일을 바꾸면 CTA·모달·메일 양식이 모두 따라갑니다.
+- **결과 하단 CTA** — `upsellHtml()` 이 두 버튼(추가 질문 / 1:1 정밀 감정)을 그리고, 클릭은 `initUpsell()` 의 document 위임이 처리합니다. 버튼에 `data-qa-open`(추가 질문) · `data-pay-open`(1:1 모달)만 붙이면 어디서든 동작합니다.
+- **추가 질문 모달(`#qa-modal`)** — 보고 있던 결과를 자동으로 채웁니다. 사주는 `사주팔자 · 양력 1990-05-09 04:20 · 여성 · 일간 경 · 일주 경자` 형식, 타로는 `이별 타로 · 속마음 · 카드(정/역) 3장` 으로 `MUKWO_TAROT_UI.summary()` 가 만들어 줍니다. 사용자가 질문을 적으면 `질문 양식 복사` · `메일로 질문 보내기(mailto)` 본문이 함께 갱신됩니다.
+- **1:1 모달(`#pay-modal`)** — 1) 검로드에서 카드 결제 2) 신청서 양식 복사 후 메일 3) 48시간 이내 PDF. 계좌 입력란은 없습니다.
+- **GA4 이벤트** — `qa_open`(from, has_context), `qa_pay_click`, `qa_template_copy`, `qa_mail_click`, `reading_open`, `reading_pay_click`. 기존 `pay_open` · `apply_click` · `template_copy` 도 그대로 남아 있습니다.
+- 가격 표기는 기준가입니다. 결제 화면에는 그날 환율과 부가세(VAT)가 반영된 원화 금액이 표시되므로, 사이트·모달 안내에도 그렇게 적어 두었습니다.
+- 검로드 상품 쪽 접수 안내 PDF·커버·설명은 `work/mukwo_qa/` 에서 빌드합니다(자세한 등록 현황은 `tarot_global/us/gumroad/STATUS.md`).
 
 ## 광고 슬롯
 
